@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const folderPath = path.join(__dirname,"../public/pages");
 app.use(express.static('public'));
-app.get("/",(req,res)=>{
+app.get("/home",(req,res)=>{
     console.log('ok')
     const htmlFile = path.join(folderPath, "index.html")
     res.sendFile(htmlFile);
