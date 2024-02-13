@@ -5,10 +5,11 @@ const {User} = require("../models/users");
 const {signupDataValidator} = require("../middleware/dataValidation");
 const { v4: uuidv4 } = require('uuid');
 const {jwtTokenGen} = require('../functions/jwtFunc');
+const {isNotLoggedIn } = require("../middleware/isLoggedIn");
 
 const filePath = path.join(__dirname,"../../public/pages");
 
-router.get("/",(req,res)=>{
+router.get("/",isNotLoggedIn,(req,res)=>{
     const file = path.join(filePath,"signup.html");
     res.sendFile(file);
 })
@@ -40,7 +41,7 @@ router.post("/",signupDataValidator,async (req,res)=>{
     await newUser.save();
     
     const token = jwtTokenGen({username,email}, uniqueId);
-    res.status(200).json({newUser, token});
+    res.cookie("authentication", token).status(200).redirect("/");
 })
 
 module.exports = router;

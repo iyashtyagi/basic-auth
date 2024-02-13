@@ -1,0 +1,21 @@
+/* Home Page Styles */
+#index-container {
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

@@ -24,7 +24,7 @@ function jwtTokenDecoder(token){
 async function jwtTokenVerify(token){
     const payload = jwtTokenDecoder(token);
     if(!payload){
-        return {"sucess" : false, "stauts" : 400,  "reason": "Invalid token"};
+        return {"success" : false, "stauts" : 400,  "reason": "Invalid token"};
     }
     const user = await User.findOne({email: payload.email});
     if(!user){
@@ -33,9 +33,9 @@ async function jwtTokenVerify(token){
     const secretToken = user.uniqueId + process.env.JWT_SECRET;
     try {
         jwt.verify(token,secretToken);
-        return {"sucess" : true};
+        return {"success" : true};
     } catch (error) {
-        return {"sucess" : false, "stauts" : 400,"reason": "Verification failed"};
+        return {"success" : false, "stauts" : 400,"reason": "Verification failed"};
     }
 }
 

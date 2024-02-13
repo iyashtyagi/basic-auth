@@ -39,14 +39,15 @@ function loginDataValidator(req,res,next){
     return;
 }
 
+
 function parsedData(req){
     const data = {"password": req.password};
     if(req.credential.includes("@")){
-        data["email"] = req.credential;
+        data["email"] = req.credential.toLowerCase();
         data["credentialType"] = "email";
     }
     else{
-        data["username"] = req.credential;
+        data["username"] = req.credential.toLowerCase();
         data["credentialType"] = "username";
     }
     return data;

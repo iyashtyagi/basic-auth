@@ -1,0 +1,15 @@
+/* Login Page Styles */
+#login-div {
+    text-align: center;
+}
+
+input[type="text"],
+input[type="password"],
+button {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}

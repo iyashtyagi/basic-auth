@@ -3,19 +3,20 @@ const router = express.Router();
 const path = require("path");
 const {User} = require("../models/users");
 const {loginDataValidator} = require("../middleware/dataValidation");
-const {isLoggedIn} = require("../middleware/isLoggedIn")
+const {isLoggedIn, isNotLoggedIn} = require("../middleware/isLoggedIn");
 const { error } = require("console");
 const {jwtTokenGen} = require("../functions/jwtFunc");
+const {v4 : uuidv4} = require("uuid");
 
-const filePath = path.join(__dirname, "../../public/pages/login.html")
+const filePath = path.join(__dirname, "../../public/pages/login.html");
 
-router.use(isLoggedIn)
 
-router.get("/",(req,res)=>{
+router.get("/",isNotLoggedIn ,(req,res)=>{
     res.status(200).sendFile(filePath);
+
 })
 
-router.post("/",loginDataValidator, async (req,res)=>{
+router.post("/", loginDataValidator, async (req,res)=>{
     const {password} = req.body.validData;
     let user = {};
     if(req.body.validData.credentialType === "email"){
@@ -37,9 +38,11 @@ router.post("/",loginDataValidator, async (req,res)=>{
         return res.status(400).json({"message" : "Wrong password"});
     }
 
+    user.uniqueId = uuidv4();
+    await user.save();
     const token = jwtTokenGen({email : user.email, username : user.username},user.uniqueId);
 
-    res.json({user,token});
+    res.cookie("authentication", token).redirect("/");
 })
 
 
